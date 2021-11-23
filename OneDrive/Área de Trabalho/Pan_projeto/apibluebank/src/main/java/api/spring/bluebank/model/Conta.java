@@ -32,8 +32,10 @@ public class Conta {
 	private static int total; // esse atributo serve para sabermos quantas contas foram abertas
 	
 	//DATABASE RELATIONSHIP 
+
 	@OneToMany(mappedBy = "conta", fetch = FetchType.LAZY)
 	private List<Movimentacoes> movimentacoes = new ArrayList<>();
+
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "cliente_id_fk", nullable = false)
