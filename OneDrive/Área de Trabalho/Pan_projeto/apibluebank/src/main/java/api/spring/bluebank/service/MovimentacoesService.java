@@ -26,12 +26,12 @@ public class MovimentacoesService {
 		mov.setSaldoInicial(contaExiste.get(0).getSaldo());
 		mov.setSaldoFinal(mov.getSaldoInicial()+ mov.getValor());
 		contaExiste.get(0).setSaldo(mov.getSaldoFinal());
+		mov.getConta().getSaldo();
 		Movimentacoes inserir = new Movimentacoes(mov.getConta(), mov.getMovNome(), mov.getValor(), mov.getSaldoInicial(), mov.getSaldoFinal());
-		
-		
+
 		if (!contaExiste.isEmpty()) {
-			
 			System.out.println(contaExiste.get(0).getSaldo());
+
 			return ResponseEntity.status(201).body(mRepository.save(inserir));
 		} else {
 			return ResponseEntity.badRequest().build();
@@ -44,14 +44,21 @@ public class MovimentacoesService {
 		mov.setSaldoFinal(mov.getSaldoInicial()- mov.getValor());
 		contaExiste.get(0).setSaldo(mov.getSaldoFinal());
 		Movimentacoes inserir = new Movimentacoes(mov.getConta(), mov.getMovNome(), mov.getValor(), mov.getSaldoInicial(), mov.getSaldoFinal());
-
 		if (!contaExiste.isEmpty() && mov.getSaldoInicial() >= mov.getValor()) {
-
 			System.out.println(contaExiste.get(0).getSaldo());
-
 			return ResponseEntity.status(201).body(mRepository.save(inserir));
 		} else {
 			return ResponseEntity.badRequest().build();
 		}
 	}
+	
+//	public ResponseEntity<List<Movimentacoes>> movPorId(Movimentacoes mov){
+//		List<Conta> contaExiste = cRepository.findByConta(mov.getConta());
+//		Conta contaId = mov.getConta();
+//		if(!contaExiste.isEmpty()) {
+//			return ResponseEntity.status(201).body(mRepository.findMovByContaId(contaId));
+//		} else {
+//		 return ResponseEntity.badRequest().build();
+//		}
+//	}
 }

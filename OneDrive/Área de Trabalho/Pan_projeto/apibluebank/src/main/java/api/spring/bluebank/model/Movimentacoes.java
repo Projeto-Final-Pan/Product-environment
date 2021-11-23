@@ -19,6 +19,10 @@ import javax.persistence.TemporalType;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonProperty.Access;
+
 
 @Entity
 @Table(name="movimentacoes")
@@ -37,19 +41,19 @@ public class Movimentacoes{
 	@Column(name = "valor", nullable = false, length = 60)
 	private Double valor;
 	
-	@Column(name = "saldoInicial", nullable = false, length = 60)
-	private Double saldoInicial;
-	
-	@Column(name = "saldoFinal", nullable = false, length = 60)
-	private Double saldoFinal;
-	
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "data")
 	private Date data = new java.sql.Date(System.currentTimeMillis());
 	
 	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "conta_id_fk", nullable = false)
+	@JsonProperty(access = Access.WRITE_ONLY)
 	private Conta conta;
 
+	private Double saldoFinal;
+
+	private Double saldoInicial;
+	
 	public Double getSaldoInicial() {
 		return saldoInicial;
 	}
